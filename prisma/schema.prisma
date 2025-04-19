@@ -1,0 +1,42 @@
+// schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // Configure sua URL do Postgres
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Evento {
+  id           Int        @id @default(autoincrement())
+  nome         String
+  data         DateTime   // Armazena data completa
+  hora_inicio  DateTime   // Armazena data + hora
+  hora_fim     DateTime   // Armazena data + hora
+  local        String
+  capacidade   Int
+  participantes Participante[]
+  checkins     Checkin[]
+}
+
+model Participante {
+  id          Int       @id @default(autoincrement())
+  nome        String
+  email       String?
+  telefone    String?
+  evento      Evento?   @relation(fields: [eventoId], references: [id])
+  eventoId    Int?
+  checkins    Checkin[]
+}
+
+model Checkin {
+  id             Int       @id @default(autoincrement())
+  participante   Participante? @relation(fields: [participanteId], references: [id])
+  participanteId Int?
+  evento         Evento?   @relation(fields: [eventoId], references: [id])
+  eventoId       Int?
+  hora_entrada   DateTime?
+  hora_saida     DateTime?
+  status         String?   @default("pendente")
+}
