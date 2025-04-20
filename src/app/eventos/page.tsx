@@ -1,35 +1,55 @@
-// src/app/eventos/page.tsx
 import Link from "next/link";
-import { db } from "../../lib/db"; // Ajuste o caminho conforme necessário
-
-interface Evento {
-  id: number;
-  nome: string;
-  data: Date;
-  hora_inicio: Date;
-  hora_fim: Date;
-  local: string;
-  capacidade: number;
-}
+import { db } from "../../lib/db";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale/pt-BR";
+import BotaoVoltar from "@/components/BotaoVoltar";
 
 const EventosPage = async () => {
-  const eventos = await db.evento.findMany(); // Buscar todos os eventos
+  const eventos = await db.evento.findMany();
 
   return (
-    <div className="h-screen flex-col items-center justify-center px-6 pt-24">
-      {/* Título */}
-      <div className="flex flex-col items-center gap-4">
-        <h2 className="text-2xl font-semibold">Eventos Disponíveis</h2>
+    <div className="min-h-screen px-6 pt-24">
+      <BotaoVoltar />
+      <div className="mb-10 flex flex-col items-center gap-4">
+        <h2 className="text-3xl font-bold">Eventos Disponíveis</h2>
+        <p className="text-muted-foreground">
+          Clique em um evento para mais detalhes
+        </p>
       </div>
 
-      {/* Lista de Eventos */}
-      <div className="grid grid-cols-1 gap-6 pt-14 md:grid-cols-2 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {eventos.map((evento) => (
           <Link key={evento.id} href={`/eventos/${evento.id}`}>
-            <div className="flex cursor-pointer flex-col items-center gap-4 rounded-lg border p-6 shadow-md transition-shadow hover:shadow-lg">
-              <h3 className="text-xl font-semibold">{evento.nome}</h3>
-              <p className="text-sm text-gray-500">{evento.local}</p>
-            </div>
+            <Card className="transition-transform hover:scale-105 hover:shadow-lg cursor-pointer">
+              <CardHeader>
+                <CardTitle>{evento.nome}</CardTitle>
+                <CardDescription>{evento.local}</CardDescription>
+              </CardHeader>
+              <CardContent className="text-sm text-muted-foreground">
+                <p>
+                  Data:{" "}
+                  {format(new Date(evento.data), "dd 'de' MMMM 'de' yyyy", {
+                    locale: ptBR,
+                  })}
+                </p>
+                <p>
+                  Horário:{" "}
+                  {format(new Date(evento.hora_inicio), "HH:mm", {
+                    locale: ptBR,
+                  })}{" "}
+                  -{" "}
+                  {format(new Date(evento.hora_fim), "HH:mm", { locale: ptBR })}
+                </p>
+                <p>Capacidade: {evento.capacidade} pessoas</p>
+              </CardContent>
+            </Card>
           </Link>
         ))}
       </div>

@@ -3,15 +3,16 @@ import { db } from "@/lib/db";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  contextPromise: Promise<{ params: { id: string } }>
 ) {
-  const eventoId = parseInt(params.id);
-
-  if (isNaN(eventoId)) {
-    return NextResponse.json({ error: "ID inválido" }, { status: 400 });
-  }
-
   try {
+    const { params } = await contextPromise;
+    const eventoId = parseInt(params.id);
+
+    if (isNaN(eventoId)) {
+      return NextResponse.json({ error: "ID inválido" }, { status: 400 });
+    }
+
     const participantes = await db.participante.findMany({
       where: { eventoId },
       include: {
@@ -22,7 +23,7 @@ export async function GET(
       },
     });
 
-    const participantesComCheckin = participantes.map((p) => ({
+    const resultado = participantes.map((p) => ({
       id: p.id,
       nome: p.nome,
       email: p.email,
@@ -32,11 +33,15 @@ export async function GET(
             id: p.checkins[0].id,
             status: p.checkins[0].status ?? "pendente",
           }
-        : null,
+        : {
+            id: null,
+            status: "pendente",
+          },
     }));
 
-    return NextResponse.json(participantesComCheckin);
+    return NextResponse.json(resultado);
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Erro ao buscar participantes" },
       { status: 500 }

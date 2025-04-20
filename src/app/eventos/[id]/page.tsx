@@ -1,23 +1,20 @@
-// src/app/eventos/[id]/page.tsx
 import { Button } from "@/components/ui/button";
-import { db } from "../../../lib/db"; // Ajuste o caminho conforme necessário
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { db } from "@/lib/db";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale/pt-BR";
+import BotaoVoltar from "@/components/BotaoVoltar";
 
-interface Evento {
-  id: number;
-  nome: string;
-  data: Date;
-  hora_inicio: Date;
-  hora_fim: Date;
-  local: string;
-  capacidade: number;
+interface EventoPageProps {
+  params: { id: string };
 }
 
-const EventoPage = async ({ params }: { params: { id: string } }) => {
+export default async function EventoPage({ params }: EventoPageProps) {
   const eventoId = parseInt(params.id);
 
   if (isNaN(eventoId)) {
-    return <div>Evento não encontrado.</div>;
+    return <div className="p-4 text-center">ID do evento inválido</div>;
   }
 
   const evento = await db.evento.findUnique({
@@ -25,25 +22,51 @@ const EventoPage = async ({ params }: { params: { id: string } }) => {
   });
 
   if (!evento) {
-    return <div>Evento não encontrado.</div>;
+    return <div className="p-4 text-center">Evento não encontrado</div>;
   }
 
   return (
     <div className="h-screen flex-col items-center justify-center px-6 pt-24">
-      <h2 className="text-3xl font-semibold text-center">{evento.nome}</h2>
-      <div className="text-center items-center justify-center mt-10">
-        {" "}
-        <p>Local do Evento:{evento.local}</p>
-        <p>Data e Hora do Evento: {evento.data.toString()}</p>
-        <p>{evento.capacidade} lugares</p>
-        <Link href={`/eventos/${evento.id}/participantes`}>
-          <Button className="mt-10">Ver Participantes</Button>
-        </Link>
-      </div>
+      <BotaoVoltar />
+      <Card className="max-w-xl mx-auto shadow-xl">
+        <CardHeader>
+          <CardTitle className="text-2xl">{evento.nome}</CardTitle>
+        </CardHeader>
 
-      {/* Link para a página de participantes */}
+        <CardContent className="space-y-4">
+          <p>
+            <strong>Local:</strong> {evento.local}
+          </p>
+          <p>
+            <strong>Data:</strong>{" "}
+            {format(new Date(evento.data), "dd 'de' MMMM 'de' yyyy", {
+              locale: ptBR,
+            })}
+          </p>
+          <p>
+            <strong>Início:</strong>{" "}
+            {format(new Date(evento.hora_inicio), "HH:mm")}
+          </p>
+          <p>
+            <strong>Fim:</strong> {format(new Date(evento.hora_fim), "HH:mm")}
+          </p>
+          <p>
+            <strong>Capacidade:</strong> {evento.capacidade} lugares
+          </p>
+
+          <div className="flex flex-col gap-3 pt-4">
+            <Link href={`/eventos/${evento.id}/participantes`}>
+              <Button className="w-full">Ver Participantes</Button>
+            </Link>
+
+            <Link href={`/eventos/${evento.id}/estatisticas`}>
+              <Button className="w-full" variant="secondary">
+                Ver Estatísticas do Evento
+              </Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
-};
-
-export default EventoPage;
+}
