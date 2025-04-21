@@ -38,7 +38,7 @@ Um sistema simples para gerenciamento de **check-in** e **check-out** de partici
 ### Pré-requisitos
 Antes de rodar o projeto, é necessário ter instalado em sua máquina:
 
-- **Node.js** (Recomendado versão 16 ou superior)
+- **Node.js** 
 - **Next.js** 
 - **Prisma** para ORM e configuração do banco de dados
 - **PostgreSQL** (NeonDB ou local)
