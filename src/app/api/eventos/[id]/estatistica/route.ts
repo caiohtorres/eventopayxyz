@@ -1,4 +1,3 @@
-// app/api/eventos/[id]/estatistica/route.ts
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
@@ -42,8 +41,7 @@ export async function GET(
   
   const totalCheckins = evento.checkins.filter(
     (c) => c.hora_entrada !== null && c.status !== "ausente"
-  ).length;
-  
+  ).length;  
   
   const totalCheckouts = evento.checkins.filter(
     (c) => c.hora_saida !== null

@@ -1,4 +1,3 @@
-// src/app/eventos/[id]/estatistica/page.tsx
 "use client";
 
 import BotaoVoltar from "@/components/BotaoVoltar";

@@ -1,15 +1,13 @@
-// prisma/seed.ts
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  // Criar Eventos
   const evento1 = await prisma.evento.create({
     data: {
       nome: "Evento Exemplo",
-      data: new Date("2024-05-10T00:00:00"), // Data com hora zerada
-      hora_inicio: new Date("2024-05-10T09:00:00"), // Data + hora de início
-      hora_fim: new Date("2024-05-10T18:00:00"), // Data + hora de término
+      data: new Date("2024-05-10T00:00:00"),
+      hora_inicio: new Date("2024-05-10T09:00:00"),
+      hora_fim: new Date("2024-05-10T18:00:00"),
       local: "Sala de Demonstração",
       capacidade: 10,
     },
@@ -18,15 +16,14 @@ async function main() {
   const evento2 = await prisma.evento.create({
     data: {
       nome: "Conferência de Tecnologia",
-      data: new Date("2024-05-15T00:00:00"), // Data com hora zerada
-      hora_inicio: new Date("2024-05-15T09:00:00"), // Data + hora de início
-      hora_fim: new Date("2024-05-15T18:00:00"), // Data + hora de término
+      data: new Date("2024-05-15T00:00:00"),
+      hora_inicio: new Date("2024-05-15T09:00:00"),
+      hora_fim: new Date("2024-05-15T18:00:00"),
       local: "Centro de Convenções",
       capacidade: 100,
     },
   });
 
-  // Participantes para o Evento Exemplo
   const participantesEvento1 = await Promise.all([
     prisma.participante.create({
       data: {
@@ -70,7 +67,6 @@ async function main() {
     }),
   ]);
 
-  // Check-ins para o Evento Exemplo
   await Promise.all([
     prisma.checkin.create({
       data: {
@@ -114,7 +110,6 @@ async function main() {
     }),
   ]);
 
-  // Atualizar saídas
   await prisma.checkin.updateMany({
     where: {
       participanteId: {
@@ -127,7 +122,6 @@ async function main() {
     },
   });
 
-  // Participantes para a Conferência de Tecnologia (apenas os primeiros 10 como exemplo)
   const participantesConferencia = [
     { nome: "Mariana Costa", telefone: "(11) 98888-1111" },
     { nome: "Ricardo Silva", telefone: "(11) 98888-2222" },
@@ -221,7 +215,7 @@ async function main() {
     { nome: "Fábio Oliveira", telefone: "(11) 90000-0000" },
   ];
 
-  const batchSize = 20; // Número de participantes a serem criados por lote
+  const batchSize = 20;
   for (let i = 0; i < participantesConferencia.length; i += batchSize) {
     const batch = participantesConferencia.slice(i, i + batchSize);
 

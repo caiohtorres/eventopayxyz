@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -13,19 +13,19 @@ export default function LoginPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Verifica se o token já existe, caso sim, redireciona para a home
+
     const token = localStorage.getItem("token");
     if (token) {
-      router.push("/home"); // Redireciona para a página inicial se o token estiver presente
+      router.push("/home");
     }
   }, [router]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Lógica de login simples (substitua pela autenticação real)
+
     if (username === "admin" && password === "1234") {
       localStorage.setItem("token", "true");
-      router.push("/home"); // Redireciona após login bem-sucedido
+      router.push("/home");
     } else {
       setError("Usuário ou senha inválidos");
     }
