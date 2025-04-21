@@ -36,10 +36,14 @@ Um sistema simples para gerenciamento de **check-in** e **check-out** de partici
 ## 🚀 Como rodar o projeto localmente
 
 ### Pré-requisitos
+Antes de rodar o projeto, é necessário ter instalado em sua máquina:
 
-- Node.js 18+
-- PostgreSQL (NeonDB ou local)
-- PNPM / NPM
+- **Node.js** (Recomendado versão 16 ou superior)
+- **Next.js** 
+- **Prisma** para ORM e configuração do banco de dados
+- **PostgreSQL** (NeonDB ou local)
+- **PNPM / NPM**
+
 
 ### 1. Clone o repositório
 
@@ -78,7 +82,7 @@ npm run dev
 
 Desenvolvido por **Caio Torres**  
 🔗 [LinkedIn](https://www.linkedin.com/in/caiohtorres2001/)  
-📫 [seuemail@email.com](mailto:torrescaio12@gmail.com)
+📫 [torrescaio12@gmail.com](mailto:torrescaio12@gmail.com)
 
 ---
 
