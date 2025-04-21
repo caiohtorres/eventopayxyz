@@ -49,7 +49,7 @@ Antes de rodar o projeto, é necessário ter instalado em sua máquina:
 
 ```bash
 git clone https://github.com/caiohtorres/eventopayxyz
-cd eventopayzyx
+cd eventopayxyz
 ```
 
 ### 2. Instale as dependências
