@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import axios from "axios";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import BotaoVoltar from "@/components/BotaoVoltar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface ParticipanteComCheckin {
   id: number;
@@ -58,7 +58,6 @@ const ParticipantesPage = () => {
     }
   };
 
-  // Função para filtrar os participantes com base no nome
   const filteredParticipantes = participantes.filter((p) =>
     p.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -68,7 +67,6 @@ const ParticipantesPage = () => {
       <BotaoVoltar />
       <h2 className="text-2xl font-semibold mb-8 text-center">Participantes</h2>
 
-      {/* Campo de busca */}
       <div className="mb-6 max-w-xl mx-auto">
         <Input
           placeholder="Buscar por nome"
@@ -78,7 +76,7 @@ const ParticipantesPage = () => {
         />
       </div>
 
-      {/* Grid de 2 colunas */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
         {filteredParticipantes.map((p) => (
           <Card key={p.id} className="shadow-xl">
@@ -94,22 +92,36 @@ const ParticipantesPage = () => {
                   className={
                     p.checkin?.status === "presente"
                       ? "text-green-600 font-semibold"
-                      : "text-red-600 font-semibold"
+                      : p.checkin?.status === "ausente"
+                      ? "text-red-600 font-semibold"
+                      : "text-yellow-600 font-semibold"
                   }
                 >
-                  {p.checkin?.status === "presente" ? "Presente" : "Ausente"}
+                  {p.checkin?.status === "presente"
+                    ? "Presente"
+                    : p.checkin?.status === "ausente"
+                    ? "Ausente"
+                    : "Pendente"}
                 </span>
               </p>
-
               <Button
                 className="mt-4"
                 variant={
-                  p.checkin?.status === "presente" ? "destructive" : "default"
+                  p.checkin?.status === "presente" || p.checkin?.status === "pendente"
+                    ? "default"
+                    : "destructive"
                 }
-                onClick={() => toggleCheckin(p.id)}
+                onClick={() => {
+                  if (p.checkin?.status !== "ausente") {
+                    toggleCheckin(p.id);
+                  }
+                }}
+                disabled={p.checkin?.status === "ausente"}
               >
                 {p.checkin?.status === "presente"
                   ? "Fazer checkout"
+                  : p.checkin?.status === "ausente"
+                  ? "Checkout realizado"
                   : "Fazer check-in"}
               </Button>
             </CardContent>

@@ -1,10 +1,10 @@
 // src/app/eventos/[id]/estatistica/page.tsx
 "use client";
 
-import { useState } from "react";
-import { useParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import BotaoVoltar from "@/components/BotaoVoltar";
+import { Button } from "@/components/ui/button";
+import { useParams } from "next/navigation";
+import { useState } from "react";
 
 interface Estatisticas {
   nome: string;
@@ -12,7 +12,9 @@ interface Estatisticas {
   totalParticipantes: number;
   totalCheckins: number;
   totalCheckouts: number;
+  totalPendentes: number;
 }
+
 
 const EstatisticaPage = () => {
   const { id } = useParams();
@@ -66,6 +68,11 @@ const EstatisticaPage = () => {
           <div className="bg-white rounded-lg p-6 shadow-md">
             <p className="text-lg font-medium">Check-outs realizados:</p>
             <p>{estatisticas.totalCheckouts}</p>
+          </div>
+
+          <div className="bg-white rounded-lg p-6 shadow-md">
+            <p className="text-lg font-medium">Participantes pendentes:</p>
+            <p>{estatisticas.totalPendentes}</p>
           </div>
         </div>
       )}

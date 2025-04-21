@@ -8,8 +8,8 @@ const HomePage = () => {
   const router = useRouter();
 
   const handleLogoff = () => {
-    localStorage.removeItem("token"); // Remove o token de sessão
-    router.push("/"); // Redireciona para a página de login
+    localStorage.removeItem("token");
+    router.push("/");
   };
 
   return (
@@ -28,7 +28,6 @@ const HomePage = () => {
         </Link>
       </div>
 
-      {/* Botão de logoff posicionado no final */}
       <Button
         variant="outline"
         className="absolute bottom-4 w-full max-w-xs text-red-600 border-red-400 hover:bg-red-50"

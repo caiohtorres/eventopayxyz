@@ -1,6 +1,6 @@
 // app/api/eventos/[id]/estatistica/route.ts
-import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { NextResponse } from "next/server";
 
 export async function GET(
   request: Request,
@@ -28,12 +28,27 @@ export async function GET(
   }
 
   const totalParticipantes = evento.participantes.length;
-  const totalCheckins = evento.checkins.filter(
-    (c) => c.hora_entrada !== null
+
+  const checkinsPorParticipante = new Map<number, boolean>();
+  evento.checkins.forEach((c) => {
+    if (c.participanteId !== null) {
+      checkinsPorParticipante.set(c.participanteId, true);
+    }
+  });
+  
+  const totalPendentes = evento.participantes.filter(
+    (p) => !checkinsPorParticipante.has(p.id)
   ).length;
+  
+  const totalCheckins = evento.checkins.filter(
+    (c) => c.hora_entrada !== null && c.status !== "ausente"
+  ).length;
+  
+  
   const totalCheckouts = evento.checkins.filter(
     (c) => c.hora_saida !== null
   ).length;
+  
 
   return NextResponse.json({
     nome: evento.nome,
@@ -41,5 +56,6 @@ export async function GET(
     totalParticipantes,
     totalCheckins,
     totalCheckouts,
+    totalPendentes,
   });
 }

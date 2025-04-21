@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { db } from "../../lib/db";
+import BotaoVoltar from "@/components/BotaoVoltar";
 import {
   Card,
   CardContent,
@@ -9,7 +8,8 @@ import {
 } from "@/components/ui/card";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";
-import BotaoVoltar from "@/components/BotaoVoltar";
+import Link from "next/link";
+import { db } from "../../lib/db";
 
 const EventosPage = async () => {
   const eventos = await db.evento.findMany();
@@ -41,11 +41,17 @@ const EventosPage = async () => {
                 </p>
                 <p>
                   Horário:{" "}
-                  {format(new Date(evento.hora_inicio), "HH:mm", {
-                    locale: ptBR,
-                  })}{" "}
+                  {evento.hora_inicio
+                    ? format(new Date(evento.hora_inicio), "HH:mm", {
+                        locale: ptBR,
+                      })
+                    : "Hora de início não disponível"}{" "}
                   -{" "}
-                  {format(new Date(evento.hora_fim), "HH:mm", { locale: ptBR })}
+                  {evento.hora_fim
+                    ? format(new Date(evento.hora_fim), "HH:mm", {
+                        locale: ptBR,
+                      })
+                    : "Hora de fim não disponível"}
                 </p>
                 <p>Capacidade: {evento.capacidade} pessoas</p>
               </CardContent>

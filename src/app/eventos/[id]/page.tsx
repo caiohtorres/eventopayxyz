@@ -1,10 +1,10 @@
+import BotaoVoltar from "@/components/BotaoVoltar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
 import { db } from "@/lib/db";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";
-import BotaoVoltar from "@/components/BotaoVoltar";
+import Link from "next/link";
 
 interface EventoPageProps {
   params: { id: string };
@@ -45,10 +45,15 @@ export default async function EventoPage({ params }: EventoPageProps) {
           </p>
           <p>
             <strong>Início:</strong>{" "}
-            {format(new Date(evento.hora_inicio), "HH:mm")}
+            {evento.hora_inicio
+              ? format(new Date(evento.hora_inicio), "HH:mm")
+              : "Hora de início não disponível"}
           </p>
           <p>
-            <strong>Fim:</strong> {format(new Date(evento.hora_fim), "HH:mm")}
+            <strong>Fim:</strong>{" "}
+            {evento.hora_fim
+              ? format(new Date(evento.hora_fim), "HH:mm")
+              : "Hora de fim não disponível"}
           </p>
           <p>
             <strong>Capacidade:</strong> {evento.capacidade} lugares

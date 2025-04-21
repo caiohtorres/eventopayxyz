@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -14,6 +14,13 @@ export async function POST(req: NextRequest) {
       where: { participanteId, eventoId },
       orderBy: { id: "desc" },
     });
+
+    if (ultimoCheckin?.status === "ausente") {
+      return NextResponse.json(
+        { error: "Você não pode fazer check-in novamente após o checkout." },
+        { status: 400 }
+      );
+    }
 
     let novoStatus = "presente";
     let hora_entrada = new Date();
