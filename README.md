@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎟️ Sistema de Gerenciamento de Eventos
 
-## Getting Started
+Um sistema simples para gerenciamento de **check-in** e **check-out** de participantes em eventos, com foco em **dispositivos móveis**.
 
-First, run the development server:
+## ✨ Tecnologias Utilizadas
+
+- **Next.js (App Router)**
+- **TypeScript**
+- **Tailwind CSS**
+- **Prisma ORM**
+- **NeonDB (PostgreSQL)**
+- **React Query (Tanstack)**
+- **Axios**
+
+---
+
+## 🧠 Funcionalidades
+
+### Frontend
+
+- 📋 Listagem de eventos
+- 👥 Visualização de participantes de um evento
+- ✅ Botões para check-in / check-out
+- 📊 Visualização de estatísticas do evento
+- 📱 Design responsivo (mobile-first)
+
+### Backend (API)
+
+- 🔍 Listar eventos
+- 🔍 Listar participantes de um evento
+- ⏱️ Realizar check-in / check-out
+- 📈 Obter estatísticas do evento
+
+---
+
+## 🚀 Como rodar o projeto localmente
+
+### Pré-requisitos
+
+- Node.js 18+
+- PostgreSQL (NeonDB ou local)
+- PNPM / NPM
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/caiohtorres/eventopayxyz
+cd eventopayzyx
+```
+
+### 2. Instale as dependências
+
+```bash
+npm install
+```
+
+### 3. Configure o Banco de Dados
+  Você pode configurar o banco de dados tanto em um servidor local quanto na nuvem (exemplo: **NeonDB**).
+  Crie um arquivo .env na raiz do projeto
+```bash
+DATABASE_URL="postgresql://usuario:senha@host:porta/database"
+```
+
+### 4. Execute as migrations e preencha com dados iniciais
+
+```bash
+npx prisma migrate dev
+npx prisma db seed
+```
+
+### 5. Rode o projeto
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧑‍💻 Autor
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Desenvolvido por **Caio Torres**  
+🔗 [LinkedIn](https://www.linkedin.com/in/caiohtorres2001/)  
+📫 [seuemail@email.com](mailto:torrescaio12@gmail.com)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📄 Licença
 
-To learn more about Next.js, take a look at the following resources:
+Este projeto é apenas para fins demonstrativos e de avaliação técnica.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
